@@ -1,0 +1,10 @@
+<div>
+  <div *ngFor="let brewery of breweries">
+    <h2>{{ brewery.name }}</h2>
+    <p>{{ brewery.breweryType }} - {{ brewery.city }}</p>
+    <a [routerLink]="['/brewery', brewery.id]">View Details</a> <!-- Link to BreweryDetailsComponent -->
+    <a [href]="brewery.website_url" target="_blank" rel="noopener noreferrer">Website</a>
+  </div>
+  <button (click)="prevPage()">Previous</button>
+  <button (click)="nextPage()">Next</button>
+</div>

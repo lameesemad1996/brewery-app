@@ -1,0 +1,8 @@
+<div *ngIf="brewery">
+  <h1>{{ brewery.name }}</h1>
+  <p>{{ brewery.breweryType }}</p>
+  <p>{{ brewery.city }}, {{ brewery.state }}</p>
+  <p>{{ brewery.address }}</p>
+  <p>{{ brewery.phone }}</p>
+  <a [href]="brewery.website_url" target="_blank" rel="noopener noreferrer">Website</a>
+</div>
