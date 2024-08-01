@@ -1,6 +1,13 @@
-<div>
-  <div *ngFor="let favorite of favorites">
-    <h2>{{ favorite.breweryId }}</h2>
-    <button (click)="removeFavorite(favorite.userId, favorite.breweryId)">Remove</button>
+<div class="container">
+  <h1>Favorites</h1>
+  <div *ngFor="let brewery of favoriteBreweries" class="favorite-item">
+    <h2>{{ brewery.name }}</h2>
+    <p>{{ brewery.brewery_type }} - {{ brewery.city }}</p>
+    <button (click)="removeFavorite(userId, brewery.id)">Remove from Favorites</button>
+    <a [routerLink]="['/brewery', brewery.id]" class="btn">View Details</a>
+    <a [href]="brewery.website_url" target="_blank" rel="noopener noreferrer" class="btn">Website</a>
+  </div>
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
   </div>
 </div>

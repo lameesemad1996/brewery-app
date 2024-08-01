@@ -31,4 +31,9 @@ export class BreweryService {
   getBreweryById(id: string): Observable<Brewery> {
     return this.http.get<Brewery>(`${this.apiUrl}/breweries/${id}`);
   }
+
+  getBreweriesByIds(ids: string[]): Observable<Brewery[]> {
+    const params = new HttpParams().set('ids', ids.join(','));
+    return this.http.get<Brewery[]>(`${this.apiUrl}/breweries/by_ids`, { params });
+  }
 }

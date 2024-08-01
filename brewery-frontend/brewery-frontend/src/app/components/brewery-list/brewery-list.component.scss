@@ -1,0 +1,89 @@
+/* General button styling */
+button, .btn {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px 0;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+/* Primary button styling for "Add to Favorites" */
+button {
+  background-color: #007bff;
+  color: white;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Secondary button styling for "View Details" and "Website" */
+.btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn:hover {
+  background-color: #5a6268;
+}
+
+/* Specific styles for links to look like buttons */
+a.btn {
+  padding: 10px 20px;
+  margin: 5px 0;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  background-color: #6c757d;
+  color: white;
+  display: inline-block;
+}
+
+a.btn:hover {
+  background-color: #5a6268;
+}
+
+/* Form styling */
+.form-group {
+  margin-bottom: 15px;
+}
+
+input[type="text"], button {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0 10px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.brewery-list, .favorites-list {
+  list-style: none;
+  padding: 0;
+}
+
+.brewery-item, .favorite-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.brewery-item h2, .favorite-item h2 {
+  margin-top: 0;
+}
+
+.brewery-item p, .favorite-item p {
+  margin: 5px 0;
+}

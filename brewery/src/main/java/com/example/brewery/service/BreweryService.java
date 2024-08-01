@@ -29,6 +29,12 @@ public class BreweryService {
         return response.getBody();
     }
 
+    public List<Brewery> getBreweriesByIds(List<String> ids) {
+        String idsString = String.join(",", ids);
+        String url = API_URL + "?by_ids=" + idsString;
+        return restTemplate.getForObject(url, List.class);
+    }
+
     public List<Brewery> searchBreweries(String name, String city, String state, String type) {
         StringBuilder url = new StringBuilder(API_URL);
         url.append("?");

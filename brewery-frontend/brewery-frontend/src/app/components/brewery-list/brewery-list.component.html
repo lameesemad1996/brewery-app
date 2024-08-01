@@ -1,26 +1,44 @@
-<div>
+<div class="container">
+  <h1>Brewery List</h1>
   <form (ngSubmit)="searchBreweries()">
-    <input [(ngModel)]="name" name="name" placeholder="Name" />
-    <input [(ngModel)]="city" name="city" placeholder="City" />
-    <input [(ngModel)]="state" name="state" placeholder="State" />
-    <input [(ngModel)]="type" name="type" placeholder="Type" />
+    <div class="form-group">
+      <input [(ngModel)]="name" name="name" placeholder="Name" />
+    </div>
+    <div class="form-group">
+      <input [(ngModel)]="city" name="city" placeholder="City" />
+    </div>
+    <div class="form-group">
+      <input [(ngModel)]="state" name="state" placeholder="State" />
+    </div>
+    <div class="form-group">
+      <input [(ngModel)]="type" name="type" placeholder="Type" />
+    </div>
     <button type="submit">Search</button>
   </form>
 
-  <div *ngFor="let brewery of breweries">
-    <h2>{{ brewery.name }}</h2>
-    <p>{{ brewery.brewery_type }} - {{ brewery.city }}</p>
-    <button (click)="addFavorite(brewery)">Add to Favorites</button>
-    <a [routerLink]="['/brewery', brewery.id]">View Details</a>
-    <a [href]="brewery.website_url" target="_blank" rel="noopener noreferrer">Website</a>
-  </div>
+  <h2>Breweries</h2>
+  <ul class="brewery-list">
+    <li *ngFor="let brewery of breweries" class="brewery-item">
+      <h2>{{ brewery.name }}</h2>
+      <p>{{ brewery.brewery_type }} - {{ brewery.city }}</p>
+      <button (click)="addFavorite(brewery)">Add to Favorites</button>
+      <a [routerLink]="['/brewery', brewery.id]" class="btn">View Details</a>
+      <a [href]="brewery.website_url" target="_blank" rel="noopener noreferrer" class="btn">Website</a>
+    </li>
+  </ul>
 
   <h2>Favorites</h2>
-  <div *ngFor="let favorite of favoriteBreweries">
-    <h2>{{ favorite.name }}</h2>
-    <p>{{ favorite.brewery_type }} - {{ favorite.city }}</p>
-    <button (click)="removeFavorite(favorite)">Remove from Favorites</button>
-    <a [routerLink]="['/brewery', favorite.id]">View Details</a>
-    <a [href]="favorite.website_url" target="_blank" rel="noopener noreferrer">Website</a>
+  <ul class="favorites-list">
+    <li *ngFor="let brewery of favoriteBreweries" class="favorite-item">
+      <h2>{{ brewery.name }}</h2>
+      <p>{{ brewery.brewery_type }} - {{ brewery.city }}</p>
+      <button (click)="removeFavorite(brewery)">Remove from Favorites</button>
+      <a [routerLink]="['/brewery', brewery.id]" class="btn">View Details</a>
+      <a [href]="brewery.website_url" target="_blank" rel="noopener noreferrer" class="btn">Website</a>
+    </li>
+  </ul>
+
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
   </div>
 </div>

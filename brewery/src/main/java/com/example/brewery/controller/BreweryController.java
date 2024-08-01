@@ -29,6 +29,11 @@ public class BreweryController {
         return breweries;
     }
 
+    @GetMapping("/by_ids")
+    public List<Brewery> getBreweriesByIds(@RequestParam List<String> ids) {
+        return breweryService.getBreweriesByIds(ids);
+    }
+
     @GetMapping("/search")
     public List<Brewery> searchBreweries(
             @RequestParam(required = false) String name,
