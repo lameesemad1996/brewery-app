@@ -8,8 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,15 +27,22 @@ public class FavoritesController {
     }
 
     @GetMapping("/{userId}")
-    public List<Favorite> getUserFavorites(@PathVariable String userId) {
+    public ResponseEntity<List<Favorite>> getUserFavorites(@PathVariable String userId) {
         logger.info("Fetching favorites for user: {}", userId);
         List<Favorite> favorites = favoriteService.getUserFavorites(userId);
         logger.info("Found {} favorites for user: {}", favorites.size(), userId);
-        return favorites;
+        return ResponseEntity.ok(favorites);
     }
 
     @PostMapping
-    public ResponseEntity<?> addFavorite(@RequestBody Favorite favorite) {
+    public ResponseEntity<?> addFavorite(@Valid @RequestBody Favorite favorite, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            String errorMessages = bindingResult.getAllErrors().stream()
+                    .map(error -> error.getDefaultMessage())
+                    .reduce("", (message1, message2) -> message1 + ", " + message2);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessages);
+        }
+
         try {
             Favorite addedFavorite = favoriteService.addFavorite(favorite);
             return ResponseEntity.ok(addedFavorite);
@@ -41,7 +50,6 @@ public class FavoritesController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
-
 
     @DeleteMapping
     public ResponseEntity<?> removeFavorite(@RequestParam String userId, @RequestParam String breweryId) {

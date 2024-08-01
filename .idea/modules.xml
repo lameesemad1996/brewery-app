@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/brewery-app.iml" filepath="$PROJECT_DIR$/.idea/brewery-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/brewery-frontend/brewery-frontend.iml" filepath="$PROJECT_DIR$/brewery-frontend/brewery-frontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/brewery.main.iml" filepath="$PROJECT_DIR$/.idea/modules/brewery.main.iml" />
     </modules>
   </component>
 </project>
