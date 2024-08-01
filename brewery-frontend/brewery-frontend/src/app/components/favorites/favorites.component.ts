@@ -15,6 +15,7 @@ import {Brewery} from "../../models/brewery";
 export class FavoritesComponent {
   favorites: Favorite[] = [];
   userId: string = 'user1'; // Assume a logged-in user ID
+  errorMessage: string = ''; // For displaying error messages
 
   constructor(private favoriteService: FavoriteService) {
     this.loadFavorites();
@@ -27,8 +28,20 @@ export class FavoritesComponent {
   }
 
   removeFavorite(userId: string, breweryId: string): void {
-    this.favoriteService.removeFavorite(userId, breweryId).subscribe(() => {
-      this.loadFavorites();
-    });
+    this.favoriteService.removeFavorite(userId, breweryId).subscribe(
+      () => {
+        console.log('Favorite removed');
+        this.loadFavorites();
+      },
+      error => {
+        if (error === '') {
+          console.log('Favorite removed successfully');
+          this.loadFavorites();
+        } else {
+          this.errorMessage = error;
+          console.error('Error removing favorite:', error);
+        }
+      }
+    );
   }
 }

@@ -24,6 +24,7 @@ export class BreweryListComponent implements OnInit {
   type: string = '';
   page: number = 1;
   userId: string = 'user1'; // Assume a logged-in user ID
+  errorMessage: string = ''; // For displaying error messages
 
   constructor(private breweryService: BreweryService, private favoriteService: FavoriteService) {}
 
@@ -46,9 +47,16 @@ export class BreweryListComponent implements OnInit {
 
   addFavorite(brewery: Brewery): void {
     const favorite: Favorite = { userId: this.userId, breweryId: brewery.id };
-    this.favoriteService.addFavorite(favorite).subscribe(() => {
-      this.loadFavorites();
-    });
+    this.favoriteService.addFavorite(favorite).subscribe(
+      response => {
+        console.log('Favorite added:', response);
+        this.loadFavorites();
+      },
+      error => {
+        this.errorMessage = error;
+        console.error('Error adding favorite:', error);
+      }
+    );
   }
 
   loadFavorites(): void {
@@ -60,9 +68,16 @@ export class BreweryListComponent implements OnInit {
   }
 
   removeFavorite(brewery: Brewery): void {
-    this.favoriteService.removeFavorite(this.userId, brewery.id).subscribe(() => {
-      this.loadFavorites();
-    });
+    this.favoriteService.removeFavorite(this.userId, brewery.id).subscribe(
+      () => {
+        console.log('Favorite removed');
+        this.loadFavorites();
+      },
+      error => {
+        this.errorMessage = error;
+        console.error('Error removing favorite:', error);
+      }
+    );
   }
 
   nextPage(): void {

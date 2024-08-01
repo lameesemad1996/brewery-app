@@ -1,9 +1,13 @@
 package com.example.brewery.controller;
 
+import com.example.brewery.exception.FavoriteAlreadyExistsException;
+import com.example.brewery.exception.FavoriteNotFoundException;
 import com.example.brewery.model.Favorite;
 import com.example.brewery.service.FavoriteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,15 +33,23 @@ public class FavoritesController {
     }
 
     @PostMapping
-    public Favorite addFavorite(@RequestBody Favorite favorite) {
-        logger.info("Adding favorite for user: {}", favorite.getUserId());
-        Favorite savedFavorite = favoriteService.addFavorite(favorite);
-        logger.info("Added favorite with id: {}", savedFavorite.getId());
-        return savedFavorite;
+    public ResponseEntity<?> addFavorite(@RequestBody Favorite favorite) {
+        try {
+            Favorite addedFavorite = favoriteService.addFavorite(favorite);
+            return ResponseEntity.ok(addedFavorite);
+        } catch (FavoriteAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
 
+
     @DeleteMapping
-    public void removeFavorite(@RequestParam String userId, @RequestParam String breweryId) {
-        favoriteService.removeFavorite(userId, breweryId);
+    public ResponseEntity<?> removeFavorite(@RequestParam String userId, @RequestParam String breweryId) {
+        try {
+            favoriteService.removeFavorite(userId, breweryId);
+            return ResponseEntity.ok("Favorite removed successfully.");
+        } catch (FavoriteNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }
