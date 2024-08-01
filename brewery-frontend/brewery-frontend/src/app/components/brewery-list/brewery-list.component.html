@@ -9,7 +9,7 @@
 
   <div *ngFor="let brewery of breweries">
     <h2>{{ brewery.name }}</h2>
-    <p>{{ brewery.breweryType }} - {{ brewery.city }}</p>
+    <p>{{ brewery.brewery_type }} - {{ brewery.city }}</p>
     <a [routerLink]="['/brewery', brewery.id]">View Details</a>
     <a [href]="brewery.website_url" target="_blank" rel="noopener noreferrer">Website</a>
   </div>

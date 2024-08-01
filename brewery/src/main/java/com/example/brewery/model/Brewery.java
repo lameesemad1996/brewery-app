@@ -18,5 +18,6 @@ public class Brewery {
     @JsonProperty("website_url")
     private String websiteUrl;
     private String phone;
+    @JsonProperty("address_1")
     private String address;
 }
