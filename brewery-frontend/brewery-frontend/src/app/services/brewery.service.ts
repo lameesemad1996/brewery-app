@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Brewery } from '../models/brewery';
 import { environment } from '../../environments/environment';
@@ -13,11 +13,19 @@ export class BreweryService {
   constructor(private http: HttpClient) {}
 
   getAllBreweries(page: number): Observable<Brewery[]> {
-    return this.http.get<Brewery[]>(`${this.apiUrl}/breweries?page=${page}`);
+    return this.http.get<Brewery[]>(`${this.apiUrl}/breweries`, {
+      params: new HttpParams().set('page', page.toString())
+    });
   }
 
   searchBreweries(name: string, city: string, state: string, type: string): Observable<Brewery[]> {
-    return this.http.get<Brewery[]>(`${this.apiUrl}/breweries/search?name=${name}&city=${city}&state=${state}&type=${type}`);
+    let params = new HttpParams();
+    if (name) params = params.set('name', name);
+    if (city) params = params.set('city', city);
+    if (state) params = params.set('state', state);
+    if (type) params = params.set('type', type);
+
+    return this.http.get<Brewery[]>(`${this.apiUrl}/breweries/search`, { params });
   }
 
   getBreweryById(id: string): Observable<Brewery> {

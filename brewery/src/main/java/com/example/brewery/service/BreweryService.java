@@ -30,15 +30,23 @@ public class BreweryService {
     }
 
     public List<Brewery> searchBreweries(String name, String city, String state, String type) {
-        String url = API_URL + "/search?query=" + name + "&by_city=" + city + "&by_state=" + state + "&by_type=" + type;
-        ResponseEntity<List<Brewery>> response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {}
-        );
-        logger.info("API Response (Search Breweries): {}", response.getBody());
-        return response.getBody();
+        StringBuilder url = new StringBuilder(API_URL);
+        url.append("?");
+        if (name != null && !name.isEmpty()) {
+            url.append("by_name=").append(name).append("&");
+        }
+        if (city != null && !city.isEmpty()) {
+            url.append("by_city=").append(city).append("&");
+        }
+        if (state != null && !state.isEmpty()) {
+            url.append("by_state=").append(state).append("&");
+        }
+        if (type != null && !type.isEmpty()) {
+            url.append("by_type=").append(type).append("&");
+        }
+        // Remove the trailing '&' or '?' if exists
+        String finalUrl = url.toString().replaceAll("[&?]$", "");
+        return restTemplate.getForObject(finalUrl, List.class);
     }
 
     public Brewery getBreweryById(String id) {

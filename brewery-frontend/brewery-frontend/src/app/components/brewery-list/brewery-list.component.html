@@ -1,8 +1,16 @@
 <div>
+  <form (ngSubmit)="searchBreweries()">
+    <input [(ngModel)]="name" name="name" placeholder="Name" />
+    <input [(ngModel)]="city" name="city" placeholder="City" />
+    <input [(ngModel)]="state" name="state" placeholder="State" />
+    <input [(ngModel)]="type" name="type" placeholder="Type" />
+    <button type="submit">Search</button>
+  </form>
+
   <div *ngFor="let brewery of breweries">
     <h2>{{ brewery.name }}</h2>
     <p>{{ brewery.breweryType }} - {{ brewery.city }}</p>
-    <a [routerLink]="['/brewery', brewery.id]">View Details</a> <!-- Link to BreweryDetailsComponent -->
+    <a [routerLink]="['/brewery', brewery.id]">View Details</a>
     <a [href]="brewery.website_url" target="_blank" rel="noopener noreferrer">Website</a>
   </div>
   <button (click)="prevPage()">Previous</button>

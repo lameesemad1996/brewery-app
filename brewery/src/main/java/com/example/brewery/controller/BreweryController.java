@@ -1,5 +1,6 @@
 package com.example.brewery.controller;
 
+import com.example.brewery.exception.ResourceNotFoundException;
 import com.example.brewery.model.Brewery;
 import com.example.brewery.service.BreweryService;
 import org.slf4j.Logger;
@@ -30,10 +31,10 @@ public class BreweryController {
 
     @GetMapping("/search")
     public List<Brewery> searchBreweries(
-            @RequestParam String name,
-            @RequestParam String city,
-            @RequestParam String state,
-            @RequestParam String type
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String state,
+            @RequestParam(required = false) String type
     ) {
         logger.info("Searching breweries with name: {}, city: {}, state: {}, type: {}", name, city, state, type);
         List<Brewery> breweries = breweryService.searchBreweries(name, city, state, type);
@@ -45,6 +46,9 @@ public class BreweryController {
     public Brewery getBreweryById(@PathVariable String id) {
         logger.info("Fetching brewery with id: {}", id);
         Brewery brewery = breweryService.getBreweryById(id);
+        if (brewery == null) {
+            throw new ResourceNotFoundException("Brewery not found with id: " + id);
+        }
         logger.info("Found brewery: {}", brewery);
         return brewery;
     }
