@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import java.util.List;
 
+/**
+ * REST controller for managing user favorite breweries.
+ * Provides endpoints for adding, removing, and fetching user favorites.
+ */
 @RestController
 @RequestMapping("/api/favorites")
 public class FavoritesController {
@@ -22,10 +26,21 @@ public class FavoritesController {
 
     private final FavoriteService favoriteService;
 
+    /**
+     * Constructs a new FavoritesController with the specified FavoriteService.
+     *
+     * @param favoriteService the FavoriteService to be used by this controller
+     */
     public FavoritesController(FavoriteService favoriteService) {
         this.favoriteService = favoriteService;
     }
 
+    /**
+     * Fetches a list of favorite breweries for the specified user.
+     *
+     * @param userId the ID of the user whose favorites are to be fetched
+     * @return a ResponseEntity containing a list of the user's favorite breweries
+     */
     @GetMapping("/{userId}")
     public ResponseEntity<List<Favorite>> getUserFavorites(@PathVariable String userId) {
         logger.info("Fetching favorites for user: {}", userId);
@@ -34,6 +49,13 @@ public class FavoritesController {
         return ResponseEntity.ok(favorites);
     }
 
+    /**
+     * Adds a brewery to the user's list of favorites.
+     *
+     * @param favorite the Favorite object containing user ID and brewery ID
+     * @param bindingResult the BindingResult object to hold validation errors
+     * @return a ResponseEntity with the added Favorite object or an error message
+     */
     @PostMapping
     public ResponseEntity<?> addFavorite(@Valid @RequestBody Favorite favorite, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -51,6 +73,13 @@ public class FavoritesController {
         }
     }
 
+    /**
+     * Removes a brewery from the user's list of favorites.
+     *
+     * @param userId the ID of the user
+     * @param breweryId the ID of the brewery to be removed from favorites
+     * @return a ResponseEntity with a success message or an error message
+     */
     @DeleteMapping
     public ResponseEntity<?> removeFavorite(@RequestParam String userId, @RequestParam String breweryId) {
         try {

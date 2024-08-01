@@ -11,6 +11,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
+/**
+ * Service class for interacting with the Open Brewery DB API.
+ * Provides methods to fetch, search, and retrieve brewery information.
+ */
 @Service
 public class BreweryService {
 
@@ -18,6 +22,12 @@ public class BreweryService {
     private final RestTemplate restTemplate = new RestTemplate();
     private static final String API_URL = "https://api.openbrewerydb.org/breweries";
 
+    /**
+     * Fetches a paginated list of all breweries.
+     *
+     * @param page the page number to retrieve
+     * @return a list of breweries on the specified page
+     */
     public List<Brewery> getAllBreweries(int page) {
         ResponseEntity<List<Brewery>> response = restTemplate.exchange(
                 API_URL + "?page=" + page,
@@ -29,12 +39,27 @@ public class BreweryService {
         return response.getBody();
     }
 
+    /**
+     * Fetches a list of breweries by their IDs.
+     *
+     * @param ids the list of brewery IDs to retrieve
+     * @return a list of breweries with the specified IDs
+     */
     public List<Brewery> getBreweriesByIds(List<String> ids) {
         String idsString = String.join(",", ids);
         String url = API_URL + "?by_ids=" + idsString;
         return restTemplate.getForObject(url, List.class);
     }
 
+    /**
+     * Searches for breweries based on various criteria.
+     *
+     * @param name  the name of the brewery to search for (optional)
+     * @param city  the city of the brewery to search for (optional)
+     * @param state the state of the brewery to search for (optional)
+     * @param type  the type of the brewery to search for (optional)
+     * @return a list of breweries matching the search criteria
+     */
     public List<Brewery> searchBreweries(String name, String city, String state, String type) {
         StringBuilder url = new StringBuilder(API_URL);
         url.append("?");
@@ -55,6 +80,12 @@ public class BreweryService {
         return restTemplate.getForObject(finalUrl, List.class);
     }
 
+    /**
+     * Fetches a brewery by its ID.
+     *
+     * @param id the ID of the brewery to retrieve
+     * @return the brewery with the specified ID
+     */
     public Brewery getBreweryById(String id) {
         Brewery brewery = restTemplate.getForObject(API_URL + "/" + id, Brewery.class);
         logger.info("API Response (Get Brewery By ID): {}", brewery);

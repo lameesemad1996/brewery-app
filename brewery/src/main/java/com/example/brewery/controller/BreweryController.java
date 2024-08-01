@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for managing breweries.
+ * Provides endpoints for fetching, searching, and retrieving breweries.
+ */
 @RestController
 @RequestMapping("/api/breweries")
 public class BreweryController {
@@ -17,10 +21,21 @@ public class BreweryController {
 
     private final BreweryService breweryService;
 
+    /**
+     * Constructs a new BreweryController with the specified BreweryService.
+     *
+     * @param breweryService the BreweryService to be used by this controller
+     */
     public BreweryController(BreweryService breweryService) {
         this.breweryService = breweryService;
     }
 
+    /**
+     * Fetches a paginated list of all breweries.
+     *
+     * @param page the page number to retrieve
+     * @return a list of breweries on the specified page
+     */
     @GetMapping
     public List<Brewery> getAllBreweries(@RequestParam int page) {
         logger.info("Fetching all breweries for page: {}", page);
@@ -29,11 +44,26 @@ public class BreweryController {
         return breweries;
     }
 
+    /**
+     * Fetches a list of breweries by their IDs.
+     *
+     * @param ids the list of brewery IDs to retrieve
+     * @return a list of breweries with the specified IDs
+     */
     @GetMapping("/by_ids")
     public List<Brewery> getBreweriesByIds(@RequestParam List<String> ids) {
         return breweryService.getBreweriesByIds(ids);
     }
 
+    /**
+     * Searches for breweries based on various criteria.
+     *
+     * @param name  the name of the brewery to search for (optional)
+     * @param city  the city of the brewery to search for (optional)
+     * @param state the state of the brewery to search for (optional)
+     * @param type  the type of the brewery to search for (optional)
+     * @return a list of breweries matching the search criteria
+     */
     @GetMapping("/search")
     public List<Brewery> searchBreweries(
             @RequestParam(required = false) String name,
@@ -47,6 +77,13 @@ public class BreweryController {
         return breweries;
     }
 
+    /**
+     * Fetches a brewery by its ID.
+     *
+     * @param id the ID of the brewery to retrieve
+     * @return the brewery with the specified ID
+     * @throws ResourceNotFoundException if no brewery is found with the specified ID
+     */
     @GetMapping("/{id}")
     public Brewery getBreweryById(@PathVariable String id) {
         logger.info("Fetching brewery with id: {}", id);
