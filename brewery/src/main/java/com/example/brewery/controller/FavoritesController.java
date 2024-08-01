@@ -36,10 +36,8 @@ public class FavoritesController {
         return savedFavorite;
     }
 
-    @DeleteMapping("/{id}")
-    public void removeFavorite(@PathVariable Long id) {
-        logger.info("Removing favorite with id: {}", id);
-        favoriteService.removeFavorite(id);
-        logger.info("Removed favorite with id: {}", id);
+    @DeleteMapping
+    public void removeFavorite(@RequestParam String userId, @RequestParam String breweryId) {
+        favoriteService.removeFavorite(userId, breweryId);
     }
 }

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { FavoritesService } from '../../services/favorites.service';
+import { FavoriteService } from '../../services/favorites.service';
 import { Favorite } from '../../models/favorite';
+import {Brewery} from "../../models/brewery";
 
 @Component({
   selector: 'app-favorites',
@@ -13,20 +14,20 @@ import { Favorite } from '../../models/favorite';
 })
 export class FavoritesComponent {
   favorites: Favorite[] = [];
-  userId: string = 'user1';
+  userId: string = 'user1'; // Assume a logged-in user ID
 
-  constructor(private favoritesService: FavoritesService) {
+  constructor(private favoriteService: FavoriteService) {
     this.loadFavorites();
   }
 
   loadFavorites(): void {
-    this.favoritesService.getUserFavorites(this.userId).subscribe(data => {
+    this.favoriteService.getFavorites(this.userId).subscribe(data => {
       this.favorites = data;
     });
   }
 
-  removeFavorite(id: number): void {
-    this.favoritesService.removeFavorite(id).subscribe(() => {
+  removeFavorite(userId: string, breweryId: string): void {
+    this.favoriteService.removeFavorite(userId, breweryId).subscribe(() => {
       this.loadFavorites();
     });
   }

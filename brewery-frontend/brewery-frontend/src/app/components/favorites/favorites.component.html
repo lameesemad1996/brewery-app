@@ -1,6 +1,6 @@
 <div>
   <div *ngFor="let favorite of favorites">
     <h2>{{ favorite.breweryId }}</h2>
-    <button (click)="removeFavorite(favorite.id)">Remove</button>
+    <button (click)="removeFavorite(favorite.userId, favorite.breweryId)">Remove</button>
   </div>
 </div>

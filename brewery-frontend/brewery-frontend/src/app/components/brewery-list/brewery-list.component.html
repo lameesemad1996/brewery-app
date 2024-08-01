@@ -10,9 +10,17 @@
   <div *ngFor="let brewery of breweries">
     <h2>{{ brewery.name }}</h2>
     <p>{{ brewery.brewery_type }} - {{ brewery.city }}</p>
+    <button (click)="addFavorite(brewery)">Add to Favorites</button>
     <a [routerLink]="['/brewery', brewery.id]">View Details</a>
     <a [href]="brewery.website_url" target="_blank" rel="noopener noreferrer">Website</a>
   </div>
-  <button (click)="prevPage()">Previous</button>
-  <button (click)="nextPage()">Next</button>
+
+  <h2>Favorites</h2>
+  <div *ngFor="let favorite of favoriteBreweries">
+    <h2>{{ favorite.name }}</h2>
+    <p>{{ favorite.brewery_type }} - {{ favorite.city }}</p>
+    <button (click)="removeFavorite(favorite)">Remove from Favorites</button>
+    <a [routerLink]="['/brewery', favorite.id]">View Details</a>
+    <a [href]="favorite.website_url" target="_blank" rel="noopener noreferrer">Website</a>
+  </div>
 </div>
