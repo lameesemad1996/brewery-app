@@ -74,8 +74,13 @@ export class BreweryListComponent implements OnInit {
         this.loadFavorites();
       },
       error => {
-        this.errorMessage = error;
-        console.error('Error removing favorite:', error);
+        if (error === '') {
+          console.log('Favorite removed successfully');
+          this.loadFavorites();
+        } else {
+          this.errorMessage = error;
+          console.error('Error removing favorite:', error);
+        }
       }
     );
   }
